@@ -29,6 +29,9 @@ from sklearn.metrics import precision_recall_fscore_support as score
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import RepeatedStratifiedKFold
 from sklearn import tree
+from sklearn.metrics import cohen_kappa_score, make_scorer
+from sklearn.grid_search import GridSearchCV
+from sklearn.svm import LinearSVC
 import sys
 sys._enablelegacywindowsfsencoding()
 pd.set_option('display.max_rows', None)
@@ -101,12 +104,12 @@ accuracy
 print (np.mean(cross_val_score(rfc, X_train, y_train, cv=10)))
 
 
-# In[124]:
+# In[173]:
 
 
 #kappa
 cohen_score = cohen_kappa_score(y_test, rf_pred_test)
-cohen_score
+print('Kappa: %.3f' % (cohen_score*100))
 
 
 # In[127]:
@@ -131,7 +134,7 @@ print ('Precision : {}'.format(precision*100))
 print ('Recall    : {}'.format(recall*100))
 
 
-# In[161]:
+# In[184]:
 
 
 #GBM
@@ -141,7 +144,7 @@ n_scores = cross_val_score(model, X, y, scoring='accuracy', cv=cv, n_jobs=-1, er
 print('Accuracy: %.3f' % (mean(n_scores)*100))
 
 
-# In[171]:
+# In[183]:
 
 
 #J48
@@ -151,6 +154,8 @@ clf_pred_train = clf.predict(X_train)
 clf_pred_test = clf.predict(X_test)
 accuracy = metrics.accuracy_score(y_test, clf_pred_test)
 print('Accuracy: %.3f' % (accuracy*100))
+#cohen_score = cohen_kappa_score(y_test, clf_pred_test)
+#print('Kappa: %.3f' % (cohen_score*100))
 
 
 # In[ ]:
